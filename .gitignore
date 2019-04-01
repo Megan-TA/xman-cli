@@ -1,2 +1,5 @@
 node_modules
-yarn-error
+yarn-error.log
+.DS_Store
+template
+test

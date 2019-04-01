@@ -1,0 +1,48 @@
+#!/usr/bin/env node
+
+const downloadGitRepo = require('download-git-repo')
+const path = require('path')
+const fs = require('fs')
+const ora = require('ora')
+// const inquirer = require('inquirer')
+const chalk = require('chalk')
+
+const generate = require('../lib/generate')
+
+const name = process.argv.reverse()[0]
+
+const dest = path.resolve(name)
+const templatePath = path.resolve(__dirname, '../template')
+const repository = 'Megan-TA/micro-front-vue-template'
+
+const spinner = ora('loading...')
+
+if (fs.existsSync(templatePath)) {
+  console.log(chalk.yellow('模板从本地缓存读取'))
+  run()
+} else {
+  spinner.start()
+  downloadGitRepo(
+    repository,
+    path.resolve(__dirname, '../'),
+    (err) => {
+      if (err) {
+        spinner.fail('模板下载失败！')
+        return
+      }
+      console.log(chalk.yellow('下载模板成功！'))
+      run()
+    })
+}
+
+function run () {
+  generate({
+    name,
+    sub: false,
+    dest
+  }, (error) => {
+    if (!error) {
+      spinner.succeed('项目创建成功！')
+    }
+  })
+}

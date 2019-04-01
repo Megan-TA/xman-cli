@@ -1,32 +1,19 @@
 {
-  "name": "xman-cli",
-  "version": "1.0.0",
+  "name": "micro-front-vue-template",
+  "version": "0.1.0",
   "description": "",
-  "main": "index.js",
-  "bin": {
-    "xman": "bin/xman",
-    "xman-init": "bin/xman-init",
-    "xman-add": "bin/xman-add"
-  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Megan-TA/xman-cli.git"
-  },
-  "author": "chen_huang",
+  "keywords": [],
+  "author": "",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Megan-TA/xman-cli/issues"
+  "devDependencies": {
+    "cz-conventional-changelog": "2.1.0"
   },
-  "homepage": "https://github.com/Megan-TA/xman-cli#readme",
-  "dependencies": {
-    "chalk": "^2.4.2",
-    "commander": "^2.19.0",
-    "handlebars": "^4.1.1",
-    "inquirer": "^6.2.2",
-    "metalsmith": "^2.3.0",
-    "ora": "^3.2.0"
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }

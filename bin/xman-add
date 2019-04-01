@@ -1,0 +1,36 @@
+#!/usr/bin/env node
+
+const path = require('path')
+const fs = require('fs')
+const ora = require('ora')
+// const inquirer = require('inquirer')
+const chalk = require('chalk')
+
+const generate = require('../lib/generate')
+
+const name = process.argv.reverse()[0]
+
+const dest = path.resolve('applications/' + name)
+const templatePath = path.resolve(__dirname, '../template')
+
+const spinner = ora('loading...')
+
+if (!fs.existsSync(templatePath)) {
+  console.log(chalk.red('需要先创建基类项目！'))
+} else {
+  run()
+}
+
+function run () {
+  generate({
+    name,
+    sub: true,
+    dest
+  }, (error) => {
+    if (!error) {
+      spinner.succeed('子项目创建成功！')
+    }
+  })
+}
+
+run()

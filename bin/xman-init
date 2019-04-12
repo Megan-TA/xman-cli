@@ -27,6 +27,7 @@ if (fs.existsSync(templatePath)) {
     path.resolve(__dirname, '../'),
     (err) => {
       if (err) {
+        console.log('error：', err)
         spinner.fail('模板下载失败！')
         return
       }
@@ -41,8 +42,9 @@ function run () {
     sub: false,
     dest
   }, (error) => {
-    if (!error) {
-      spinner.succeed('项目创建成功！')
+    if (error) {
+        spinner.fail('项目创建失败！')
     }
+    spinner.succeed('项目创建成功！')
   })
 }

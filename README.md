@@ -63,6 +63,12 @@ yarn run install
 yarn run serve
 ```
 
+3. 子项目安装依赖
+
+```bash
+lerna add jquery --scope=app-user
+```
+
 ### 实现原理
 
 1. 指定子系统统一的入口文件，配置`webpack`加入到主项目编译的入口文件中；

@@ -8,5 +8,8 @@ program
   .command('init', 'generate a new project from a template')
   .command('build', 'prototype a new project')
   .command('add', 'create subSystem')
+  .command('start', 'start system')
+  .command('build', 'build base system')
+  .command('buildSub', 'build sub system')
 
 program.parse(process.argv)

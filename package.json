@@ -1,11 +1,23 @@
 {
-  "name": "micro-front-vue-template",
-  "version": "0.1.0",
-  "description": "",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "name": "xman-cli",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:Megan-TA/xman-cli.git",
+  "author": "chen_huang <893669153@qq.com>",
+  "license": "MIT",
+  "bin": {
+    "xman": "bin/xman",
+    "xman-init": "bin/xman-init",
+    "xman-add": "bin/xman-add",
+    "xman-start": "bin/xman-start",
+    "xman-build": "bin/xman-build",
+    "xman-buildSub": "bin/xman-buildSub"
   },
-  "keywords": [],
-  "author": "",
-  "license": "MIT"
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "consolidate": "^0.15.1",
+    "download-git-repo": "^1.1.0",
+    "inquirer": "^6.3.1",
+    "metalsmith": "^2.3.0"
+  }
 }

@@ -1,0 +1,33 @@
+{
+  "name": "{{ name }}",
+  "devPort": "{{ devPort }}",
+  "version": "1.0.0",
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build --report --target lib --formats umd-min ./src/main.js"
+  },
+  "dependencies": {
+    "vue": "^2.6.10",
+    "vue-router": "^3.0.2",
+    "vuex": "^3.1.0"
+  },
+  "devDependencies": {
+    "@vue/cli-service": "^3.5.1",
+    "postcss-import": "^12.0.1",
+    "precss": "^4.0.0",
+    "vue-template-compiler": "^2.6.10"
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {},
+      "postcss-import": {},
+      "precss": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ],
+  "license": "MIT"
+}

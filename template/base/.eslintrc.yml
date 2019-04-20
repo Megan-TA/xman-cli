@@ -1,0 +1,23 @@
+---
+root: true
+env:
+    browser: true
+    node: true
+    es6: true
+parserOptions:
+    ecmaVersion: 6
+    parser: babel-eslint
+extends:
+    - plugin:vue/essential
+    - standard
+rules:
+    indent: off
+    vue/script-indent:
+        - error
+        - 4
+        - baseIndent: 1
+globals:
+    Vue: true
+    scope: true
+plugins:
+    - vue

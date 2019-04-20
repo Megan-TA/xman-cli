@@ -1,4 +1,4 @@
-require('./check-versions')()
+// require('./check-versions')()
 
 var config = require('../config')
 if (!process.env.NODE_ENV) {
@@ -9,10 +9,11 @@ var opn = require('opn')
 var path = require('path')
 var express = require('express')
 var webpack = require('webpack')
+const portfinder = require('portfinder')
 var proxyMiddleware = require('http-proxy-middleware')
 var webpackConfig = require('./webpack.dev.conf')
 
-var port = process.env.PORT || config.dev.port
+portfinder.basePort = process.env.PORT || config.dev.port
 var autoOpenBrowser = !!config.dev.autoOpenBrowser
 var proxyTable = config.dev.proxyTable
 
@@ -60,30 +61,34 @@ app.use(hotMiddleware)
 var staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
 app.use(staticPath, express.static('./static'))
 
-var uri = `http://` + (host || 'localhost') + ':' + port
+portfinder.getPortPromise()
+  .then(port => {
+    var uri = `http://` + (host || 'localhost') + ':' + port
 
-if (openPage) uri += openPage
+    if (openPage) uri += openPage
 
-var _resolve
-var readyPromise = new Promise(resolve => {
-  _resolve = resolve
-})
+    var _resolve
+    var readyPromise = new Promise(resolve => {
+      _resolve = resolve
+    })
 
-console.log('> Starting dev server...')
-devMiddleware.waitUntilValid(() => {
-  console.log('> Listening at ' + uri + '\n')
-  // when env is testing, don't need open it
-  if (autoOpenBrowser && process.env.NODE_ENV !== 'testing') {
-    opn(uri)
-  }
-  _resolve()
-})
+    console.log('> Starting dev server...')
+    devMiddleware.waitUntilValid(() => {
+      console.log('> Listening at ' + uri + '\n')
+      // when env is testing, don't need open it
+      if (autoOpenBrowser && process.env.NODE_ENV !== 'testing') {
+        opn(uri)
+      }
+      _resolve()
+    })
 
-var server = app.listen(port)
+    // var server = app.listen(port)
+    app.listen(port)
+  })
 
-module.exports = {
-  ready: readyPromise,
-  close: () => {
-    server.close()
-  }
-}
+// module.exports = {
+//   ready: readyPromise,
+//   close: () => {
+//     server.close()
+//   }
+// }

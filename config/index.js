@@ -1,6 +1,8 @@
 var path = require('path')
 var packageJson = require('../package.json')
 
+const config = require('../applications/app-base/xman.config')
+
 module.exports = {
   build: {
     env: require('./prod.env'),
@@ -11,17 +13,21 @@ module.exports = {
     productionSourceMap: false,
     productionGzip: false,
     productionGzipExtensions: ['js', 'css'],
-    bundleAnalyzerReport: false
+    bundleAnalyzerReport: false,
+    ...config.prod
   },
   dev: {
     env: require('./dev.env'),
-    port: 80,
-    openPage: true,
+    port: 84,
+    // openPage: true,
     autoOpenBrowser: true,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {
-    },
-    cssSourceMap: false
+    proxyTable: {},
+    cssSourceMap: false,
+    ...config.dev
+  },
+  common: {
+    ...config.common
   }
 }

@@ -1,5 +1,10 @@
 #!/usr/bin/env node
 
 const shell = require('shelljs')
+const path = require('path')
 
-shell.exec('node build/dev-server.js')
+const serverStartPath = path.join(__dirname, '../build/dev-server.js')
+
+// console.log(__dirname, process.cwd())
+
+shell.exec(`node ${serverStartPath}`)

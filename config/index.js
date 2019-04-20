@@ -1,7 +1,9 @@
 var path = require('path')
 var packageJson = require('../package.json')
 
-const config = require('../applications/app-base/xman.config')
+const sourcePath = process.cwd()
+
+const config = require(`${sourcePath}/xman.config`)
 
 module.exports = {
   build: {

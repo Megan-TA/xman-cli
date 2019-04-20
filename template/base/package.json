@@ -1,0 +1,24 @@
+{
+  "name": "root",
+  "private": true,
+  "scripts": {
+    "install": "lerna exec --stream -- yarn",
+    "serve": "lerna run serve --parallel",
+    "build": "lerna run build --stream",
+    "copy": "node ./copy.js"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.1",
+    "cz-conventional-changelog": "2.1.0",
+    "eslint": "^5.16.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-promise": "^4.1.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "eslint-plugin-vue": "^5.2.2",
+    "lerna": "^3.13.1",
+    "recursive-copy": "^2.0.9",
+    "shelljs": "^0.8.3"
+  }
+}

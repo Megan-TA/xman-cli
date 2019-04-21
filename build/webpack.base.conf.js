@@ -3,12 +3,9 @@ var webpack = require('webpack')
 var utils = require('./utils')
 var config = require('../config')
 var vueLoaderConfig = require('./vue-loader.conf')
-// const VueLoaderPlugin = require('vue-loader/lib/')
 // var pkg = require('../package.json')
 
 const sourcePath = process.cwd()
-
-console.log(sourcePath + '/src')
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -31,9 +28,9 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
-      'vue$': 'vue/dist/vue.esm.js',
-      '@': resolve('src'),
-      'src': path.resolve(__dirname, '../src')
+      'vue$': 'vue/dist/vue.esm.js'
+    //   '@': resolve('src'),
+    //   'src': path.resolve(__dirname, '../src')
     }
   },
   externals: config.common.externals,
@@ -62,18 +59,21 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        // loader: 'babel-loader?cacheDirectory',
         exclude: /node_modules/,
+        include: sourcePath,
         use: {
-          loader: 'babel-loader?cacheDirectory'
+          loader: 'babel-loader?cacheDirectory',
+          options: {
+            'presets': [
+              '@babel/preset-env'
+            ],
+            'plugins': [
+              '@babel/plugin-syntax-dynamic-import',
+              '@babel/plugin-transform-runtime'
+            ]
+          }
         }
-        // include: [
-        //   sourcePath + '/src'
-        // ]
       }
     ]
   }
-//   plugins: [
-//     new VueLoaderPlugin()
-//   ]
 }

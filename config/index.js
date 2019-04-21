@@ -3,19 +3,25 @@ var packageJson = require('../package.json')
 
 const sourcePath = process.cwd()
 
+const isBase = process.cwd().lastIndexOf('app-base') > -1
+
 const config = require(`${sourcePath}/xman.config`)
 
-module.exports = {
+const subExternalPath = sourcePath.replace(/\/[\w-]+$/, '/app-base/scripts/subExternal.js')
+
+const subExternal = require(subExternalPath)
+
+let webpackConfig = {
   build: {
     env: require('./prod.env'),
-    index: path.resolve(__dirname, '../dist/index.html'),
-    assetsRoot: path.resolve(__dirname, '../dist/'),
+    index: sourcePath + '/dist/index.html',
+    assetsRoot: sourcePath + '/dist/',
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/' + packageJson.name + '/',
+    assetsPublicPath: '/',
     productionSourceMap: false,
     productionGzip: false,
     productionGzipExtensions: ['js', 'css'],
-    bundleAnalyzerReport: false,
+    bundleAnalyzerReport: true,
     ...config.prod
   },
   dev: {
@@ -33,3 +39,9 @@ module.exports = {
     ...config.common
   }
 }
+
+if (!isBase) {
+    webpackConfig.common.externals = subExternal
+}
+
+module.exports = webpackConfig

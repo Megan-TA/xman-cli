@@ -8,8 +8,8 @@ var CopyWebpackPlugin = require('copy-webpack-plugin')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 // var SshWebpackPlugin = require('ssh-webpack-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 var packageJson = require('../package.json')
 
@@ -48,7 +48,6 @@ var webpackConfig = merge(baseWebpackConfig, {
         }
       }
     }),
-
     // extract css into its own file
     new ExtractTextPlugin({
       filename: utils.assetsPath('css/[name].[contenthash].css')
@@ -60,25 +59,9 @@ var webpackConfig = merge(baseWebpackConfig, {
         safe: true
       }
     }),
-    new HtmlWebpackPlugin({
-      // filename: config.build.index,
-      filename: 'index.html',
-      template: sourcePath + '/public/index.html',
-      inject: true,
-      minify: {
-        removeComments: true,
-        collapseWhitespace: true,
-        removeAttributeQuotes: true
-        // more options:
-        // https://github.com/kangax/html-minifier#options-quick-reference
-      },
-      // chunks: ['app'],
-      // necessary to consistently work with multiple chunks via CommonsChunkPlugin
-      chunksSortMode: 'dependency'
-    }),
 
     new webpack.HashedModuleIdsPlugin(),
-    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /zh-cn/),
+    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /zh-cn/)
     // new webpack.optimize.CommonsChunkPlugin({
     //   async: 'async-vendor',
     //   deepChildren: true,
@@ -112,34 +95,34 @@ var webpackConfig = merge(baseWebpackConfig, {
     //     )
     //   }
     // }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      minChunks: function (module) {
-        console.log('module: ', module)
-        return (
-          module.resource &&
-                    /\.js$/.test(module.resource) &&
-                    module.resource.indexOf(
-                      sourcePath + '/node_modules'
-                    //   path.join(__dirname, '../node_modules')
-                    ) === 0
-        )
-      }
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'lib',
-      minChunks: function (module) {
-        return (
-          module.resource &&
-                    /\.js$/.test(module.resource) &&
-                    /(vue-router|vuex|moment)/.test(module.resource)
-        )
-      }
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'manifest',
-      minChunks: Infinity
-    })
+    // new webpack.optimize.CommonsChunkPlugin({
+    //   name: 'vendor',
+    //   minChunks: function (module) {
+    //     return (
+    //       module.resource &&
+    //                 /\.js$/.test(module.resource) &&
+    //                 module.resource.indexOf(
+    //                   sourcePath + '/node_modules'
+    //                 //   path.join(__dirname, '../node_modules')
+    //                 ) === 0
+    //     )
+    //   }
+    // }),
+    // new webpack.optimize.CommonsChunkPlugin({
+    //   name: 'lib',
+    //   minChunks: function (module) {
+    //     console.log('lib: ', module.resource)
+    //     return (
+    //       module.resource &&
+    //                 /\.js$/.test(module.resource) &&
+    //                 /(vue-router|vuex|moment)/.test(module.resource)
+    //     )
+    //   }
+    // }),
+    // new webpack.optimize.CommonsChunkPlugin({
+    //   name: 'manifest',
+    //   minChunks: Infinity
+    // })
   ]
 })
 

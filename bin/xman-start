@@ -5,6 +5,4 @@ const path = require('path')
 
 const serverStartPath = path.join(__dirname, '../build/dev-server.js')
 
-// console.log(__dirname, process.cwd())
-
 shell.exec(`node ${serverStartPath}`)

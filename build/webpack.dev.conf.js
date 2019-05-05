@@ -19,22 +19,17 @@ Object.keys(baseWebpackConfig.entry).forEach(function (name) {
   baseWebpackConfig.entry[name] = [clientHotUpdate].concat(baseWebpackConfig.entry[name])
 })
 
-// process.env.NODE_ENV = config.dev.env.NODE_ENV
-
 module.exports = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap })
   },
-  // cheap-module-eval-source-map is faster for development
   devtool: '#cheap-module-eval-source-map',
   plugins: [
     new webpack.DefinePlugin({
       'process.env': config.dev.env
     }),
-    // https://github.com/glenjamin/webpack-hot-middleware#installation--usage
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
-    // https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: sourcePath + '/public/index.html',

@@ -9,8 +9,6 @@ var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 // var SshWebpackPlugin = require('ssh-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
-const InsertCssForChildEntry = require('./webpack/InsertCssForChildEntry')
-
 const sourcePath = process.cwd()
 
 const APPNAME = sourcePath.match(/app-\w+/)[0]
@@ -35,7 +33,6 @@ var webpackConfig = merge(baseWebpackConfig, {
   },
   plugins: [
 
-    // new InsertCssForChildEntry(),
     new webpack.DefinePlugin({
       'process.env': env
     }),
@@ -51,18 +48,14 @@ var webpackConfig = merge(baseWebpackConfig, {
     //     }
     //   }
     // }),
-    // extract css into its own file
     new ExtractTextPlugin({
-      filename: utils.assetsPath('css/[name].[contenthash].css')
+      filename: utils.assetsPath('css/[name].[contenthash:6].css')
     }),
-    // Compress extracted CSS. We are using this plugin so that possible
-    // duplicated CSS from different components can be deduped.
     new OptimizeCSSPlugin({
       cssProcessorOptions: {
         safe: true
       }
     }),
-
     new webpack.HashedModuleIdsPlugin(),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
@@ -75,22 +68,6 @@ var webpackConfig = merge(baseWebpackConfig, {
         )
       }
     })
-    // new webpack.optimize.CommonsChunkPlugin({
-    //   name: 'common',
-    //   chunks: ['app'],
-    //   filename: '[name].js'
-    // })
-    // new webpack.optimize.CommonsChunkPlugin({
-    //   name: 'lib',
-    //   minChunks: function (module) {
-    //     console.log('lib: ', module.resource)
-    //     return (
-    //       module.resource &&
-    //                 /\.js$/.test(module.resource) &&
-    //                 /(vue-router|vuex|moment)/.test(module.resource)
-    //     )
-    //   }
-    // }),
     // new webpack.optimize.CommonsChunkPlugin({
     //   name: 'manifest',
     //   minChunks: Infinity

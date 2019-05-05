@@ -3,7 +3,12 @@ const fs = require('fs')
 
 let cssNames = fs.readdirSync('./applications/app-customer/dist/css')
   .filter(name => /css$/.test(name))
-let sourceString = fs.readFileSync('./applications/app-customer/dist/app-customer.097b2f.js', 'utf-8')
+
+const basePath = process.cwd() + '/applications/app-customer/dist/'
+
+let appPath = fs.readdirSync('./applications/app-customer/dist/').filter(name => name.startsWith('app-'))[0]
+
+let sourceString = fs.readFileSync(basePath + appPath, 'utf-8')
 
 sourceString = `
 var cssNames = \`/app-customer/css/${cssNames}\`;
@@ -19,4 +24,4 @@ document.getElementsByTagName('head')[0].appendChild(fragment);
 
 ` + sourceString
 
-fs.writeFileSync('./applications/app-customer/dist/app-customer.097b2f.js', sourceString, 'utf-8')
+fs.writeFileSync(basePath + appPath, sourceString, 'utf-8')

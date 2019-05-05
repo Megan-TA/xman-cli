@@ -1,5 +1,5 @@
 
-var cssNames = `app-customer.91af353a138a6f94f859614988e83579.css`;
+var cssNames = `/app-customer/css/app-customer.91af35.css`;
 cssNames = cssNames.split(',');
 var fragment = document.createDocumentFragment();
 for(var i = 0; i<cssNames.length; i++) {
@@ -12,14 +12,14 @@ document.getElementsByTagName('head')[0].appendChild(fragment);
 
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("Vue"), require("ELEMENT"));
+		module.exports = factory(require("ELEMENT"), require("Vue"));
 	else if(typeof define === 'function' && define.amd)
-		define(["Vue", "ELEMENT"], factory);
+		define(["ELEMENT", "Vue"], factory);
 	else if(typeof exports === 'object')
-		exports["app-customer"] = factory(require("Vue"), require("ELEMENT"));
+		exports["app-customer"] = factory(require("ELEMENT"), require("Vue"));
 	else
-		root["app-customer"] = factory(root["Vue"], root["ELEMENT"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_lRwf__, __WEBPACK_EXTERNAL_MODULE_l6IN__) {
+		root["app-customer"] = factory(root["ELEMENT"], root["Vue"]);
+})(this, function(__WEBPACK_EXTERNAL_MODULE_l6IN__, __WEBPACK_EXTERNAL_MODULE_lRwf__) {
 return webpackJsonpapp_customer([2],{
 
 /***/ "4OoT":
@@ -139,12 +139,12 @@ var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__routes__ = __webpack_require__("eqvY");
+// import './utils/index'
 
 
 var __app__ = window.__app__ = window.__app__ || {};
 
 __app__.routes = (__app__.routes || []).concat(__WEBPACK_IMPORTED_MODULE_0__routes__["a" /* default */]);
-console.log(1);
 
 /***/ }),
 
@@ -253,4 +253,4 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_lRwf__;
 
 },["NHnr"]);
 });
-//# sourceMappingURL=app-customer.097b2f.js.map
+//# sourceMappingURL=app-customer.18ffdd.js.map

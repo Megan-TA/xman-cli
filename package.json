@@ -14,7 +14,6 @@
     "xman-buildSub": "bin/xman-buildSub"
   },
   "scripts": {
-      "build": "node build/test",
       "merge": "node InsertCssForChildEntry && node copy && node replace"
   },
   "dependencies": {

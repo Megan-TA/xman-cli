@@ -49,7 +49,6 @@ var webpackConfig = merge(baseWebpackConfig, {
     //   }
     // }),
 
-    // extract css into its own file
     new ExtractTextPlugin({
       filename: utils.assetsPath('css/[name].[contenthash].css')
     }),
@@ -61,7 +60,6 @@ var webpackConfig = merge(baseWebpackConfig, {
       }
     }),
     new HtmlWebpackPlugin({
-      // filename: config.build.index,
       filename: 'index.html',
       template: sourcePath + '/public/index.html',
       inject: true,
@@ -69,49 +67,12 @@ var webpackConfig = merge(baseWebpackConfig, {
         removeComments: true,
         collapseWhitespace: true,
         removeAttributeQuotes: true
-        // more options:
-        // https://github.com/kangax/html-minifier#options-quick-reference
       },
-      // chunks: ['app'],
-      // necessary to consistently work with multiple chunks via CommonsChunkPlugin
       chunksSortMode: 'dependency'
     }),
 
     new webpack.HashedModuleIdsPlugin(),
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /zh-cn/),
-    // new webpack.optimize.CommonsChunkPlugin({
-    //   async: 'async-vendor',
-    //   deepChildren: true,
-    //   minChunks: function (module) {
-    //     return (
-    //       module.resource &&
-    //                 /\.js$/.test(module.resource) &&
-    //                 /node_modules/.test(module.resource)
-    //     )
-    //   }
-    // }),
-    // new webpack.optimize.CommonsChunkPlugin({
-    //   async: 'async-html2canvas',
-    //   deepChildren: true,
-    //   minChunks: function (module) {
-    //     return (
-    //       module.resource &&
-    //                 /\.js$/.test(module.resource) &&
-    //                 /html2canvas/.test(module.resource)
-    //     )
-    //   }
-    // }),
-    // new webpack.optimize.CommonsChunkPlugin({
-    //   async: 'async-element-china-area-data',
-    //   deepChildren: true,
-    //   minChunks: function (module) {
-    //     return (
-    //       module.resource &&
-    //                 /\.js$/.test(module.resource) &&
-    //                 /element-china-area-data/.test(module.resource)
-    //     )
-    //   }
-    // }),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       minChunks: function (module) {

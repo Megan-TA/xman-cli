@@ -1,4 +1,5 @@
 var path = require('path')
+const fs = require('fs')
 var webpack = require('webpack')
 var utils = require('./utils')
 var config = require('../config')
@@ -13,11 +14,49 @@ function resolve (dir) {
 
 const isProd = process.env.NODE_ENV === 'production'
 
+// const isDev = process.env.NODE_ENV === 'development'
+
+// const entry = { app: path.join(__dirname, '/src/main.js') }
+
+// if (isDev) {
+//   Object.assign(entry, {
+//     child: path.join(__dirname, '../app-customer/src/main.js')
+//   })
+// }
+
+function findChildEntrys () {
+  let rootDirPath = path.join(sourcePath, '../')
+  let childDirs = fs.readdirSync(rootDirPath)
+  let childMainPath = childDirs
+    .filter(name => name.startsWith('app-') && !/app-base/.test(name))
+    .map(name => {
+      return `${rootDirPath}${name}/src/main.js`
+    })
+  return childMainPath
+}
+
+function finalEntry (entry) {
+  let childEntrys = findChildEntrys()
+  if (isProd || !childEntrys.length) return entry
+  let entrysObject = findChildEntrys().reduce((prev, now) => {
+    let name = now.match(/app-(\w+)/)[0]
+     prev = {
+         ...prev,
+         [name]: now
+     }
+     return prev
+  }, {})
+
+  Object.assign(entry, entrysObject)
+
+  return entry
+}
+
 module.exports = {
 //   entry: {
 //     app: './src/main.js'
 //   },
-  entry: config.common.entry,
+  entry: finalEntry(config.common.entry),
   output: {
     path: config.build.assetsRoot,
     filename: '[name].js',
@@ -28,8 +67,8 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
-      'vue$': 'vue/dist/vue.esm.js'
-    //   '@': resolve('src'),
+      'vue$': 'vue/dist/vue.esm.js',
+      '@': path.join(__dirname, '../applications/app-base/src')
     //   'src': path.resolve(__dirname, '../src')
     }
   },
@@ -60,7 +99,7 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        include: sourcePath,
+        // include: sourcePath,
         use: {
           loader: 'babel-loader?cacheDirectory',
           options: {
@@ -68,6 +107,7 @@ module.exports = {
               '@babel/preset-env'
             ],
             'plugins': [
+              '@babel/plugin-proposal-object-rest-spread',
               '@babel/plugin-syntax-dynamic-import',
               '@babel/plugin-transform-runtime'
             ]
@@ -75,5 +115,6 @@ module.exports = {
         }
       }
     ]
-  }
+  },
+  plugins: config.common.plugins || []
 }

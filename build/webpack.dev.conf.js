@@ -7,6 +7,8 @@ var baseWebpackConfig = require('./webpack.base.conf')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 
+const InsertScriptWebpackPlugin = require('./webpack/InsertScriptWebpackPlugin')
+
 const clientHotUpdate = path.join(__dirname, '/dev-client.js')
 
 const sourcePath = process.cwd()
@@ -16,6 +18,8 @@ Object.keys(baseWebpackConfig.entry).forEach(function (name) {
 //   baseWebpackConfig.entry[name] = ['./build/dev-client'].concat(baseWebpackConfig.entry[name])
   baseWebpackConfig.entry[name] = [clientHotUpdate].concat(baseWebpackConfig.entry[name])
 })
+
+// process.env.NODE_ENV = config.dev.env.NODE_ENV
 
 module.exports = merge(baseWebpackConfig, {
   module: {
@@ -35,10 +39,13 @@ module.exports = merge(baseWebpackConfig, {
       filename: 'index.html',
       template: sourcePath + '/public/index.html',
       inject: true,
-      chunksSortMode: 'dependency'
+      chunksSortMode: 'none'
+    //   chunksSortMode: 'dependency'
     }),
 
-    new FriendlyErrorsPlugin()
+    new FriendlyErrorsPlugin(),
+
+    new InsertScriptWebpackPlugin()
 
   ]
 })

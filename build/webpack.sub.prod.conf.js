@@ -4,16 +4,16 @@ var webpack = require('webpack')
 var config = require('../config')
 var merge = require('webpack-merge')
 var baseWebpackConfig = require('./webpack.base.conf')
-var CopyWebpackPlugin = require('copy-webpack-plugin')
-var HtmlWebpackPlugin = require('html-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 // var SshWebpackPlugin = require('ssh-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
-var packageJson = require('../package.json')
+const InsertCssForChildEntry = require('./webpack/InsertCssForChildEntry')
 
 const sourcePath = process.cwd()
+
+const APPNAME = sourcePath.match(/app-\w+/)[0]
 
 var env = config.build.env
 
@@ -26,28 +26,31 @@ var webpackConfig = merge(baseWebpackConfig, {
   },
   devtool: config.build.productionSourceMap ? '#source-map' : false,
   output: {
+    library: APPNAME,
+    libraryTarget: 'umd',
     path: config.build.assetsRoot,
-    filename: utils.assetsPath('js/[name].[chunkhash].js'),
-    publicPath: '/',
-    chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
+    filename: utils.assetsPath('[name].[chunkhash:6].js'),
+    publicPath: `/${APPNAME}/`,
+    chunkFilename: utils.assetsPath('[id].[chunkhash:6].js')
   },
   plugins: [
-    // http://vuejs.github.io/vue-loader/en/workflow/production.html
+
+    // new InsertCssForChildEntry(),
     new webpack.DefinePlugin({
       'process.env': env
     }),
-    new UglifyJsPlugin({
-      uglifyOptions: {
-        output: {
-          comments: false,
-          beautify: false
-        },
-        compress: {
-          warnings: false,
-          drop_console: true
-        }
-      }
-    }),
+    // new UglifyJsPlugin({
+    //   uglifyOptions: {
+    //     output: {
+    //       comments: false,
+    //       beautify: false
+    //     },
+    //     compress: {
+    //       warnings: false,
+    //       drop_console: true
+    //     }
+    //   }
+    // }),
     // extract css into its own file
     new ExtractTextPlugin({
       filename: utils.assetsPath('css/[name].[contenthash].css')
@@ -61,53 +64,22 @@ var webpackConfig = merge(baseWebpackConfig, {
     }),
 
     new webpack.HashedModuleIdsPlugin(),
-    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /zh-cn/)
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      deepChildren: true,
+      minChunks: function (module) {
+        return (
+          module.resource &&
+                    /\.js$/.test(module.resource) &&
+                    /node_modules/.test(module.resource)
+        )
+      }
+    })
     // new webpack.optimize.CommonsChunkPlugin({
-    //   async: 'async-vendor',
-    //   deepChildren: true,
-    //   minChunks: function (module) {
-    //     return (
-    //       module.resource &&
-    //                 /\.js$/.test(module.resource) &&
-    //                 /node_modules/.test(module.resource)
-    //     )
-    //   }
-    // }),
-    // new webpack.optimize.CommonsChunkPlugin({
-    //   async: 'async-html2canvas',
-    //   deepChildren: true,
-    //   minChunks: function (module) {
-    //     return (
-    //       module.resource &&
-    //                 /\.js$/.test(module.resource) &&
-    //                 /html2canvas/.test(module.resource)
-    //     )
-    //   }
-    // }),
-    // new webpack.optimize.CommonsChunkPlugin({
-    //   async: 'async-element-china-area-data',
-    //   deepChildren: true,
-    //   minChunks: function (module) {
-    //     return (
-    //       module.resource &&
-    //                 /\.js$/.test(module.resource) &&
-    //                 /element-china-area-data/.test(module.resource)
-    //     )
-    //   }
-    // }),
-    // new webpack.optimize.CommonsChunkPlugin({
-    //   name: 'vendor',
-    //   minChunks: function (module) {
-    //     return (
-    //       module.resource &&
-    //                 /\.js$/.test(module.resource) &&
-    //                 module.resource.indexOf(
-    //                   sourcePath + '/node_modules'
-    //                 //   path.join(__dirname, '../node_modules')
-    //                 ) === 0
-    //     )
-    //   }
-    // }),
+    //   name: 'common',
+    //   chunks: ['app'],
+    //   filename: '[name].js'
+    // })
     // new webpack.optimize.CommonsChunkPlugin({
     //   name: 'lib',
     //   minChunks: function (module) {

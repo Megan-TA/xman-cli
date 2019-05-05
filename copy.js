@@ -1,23 +1,29 @@
-const copy = require('recursive-copy');
+const fs = require('fs')
+const copy = require('recursive-copy')
+const shell = require('shelljs')
 
-const task = [
-  {
-    src: 'applications/app-entry/dist',
-    dest: 'docs',
-  },
-  {
-    src: 'applications/app-typescript/dist',
-    dest: 'docs/app-typescript',
-  },
-  {
-    src: 'applications/app-javascript/dist',
-    dest: 'docs/app-javascript',
-  },
-];
+if (fs.existsSync('dist')) {
+  shell.rm('-r', 'dist')
+}
 
-task.forEach(({ src, dest }) => {
-  copy(src, dest, (error) => {
-    error &&
-      console.error('[Copy failed]', `src: ${src}, dest: ${dest}`, error);
-  });
-});
+let applications = fs.readdirSync('applications')
+
+applications
+  .filter(item => item.startsWith('app-'))
+  .map(name => {
+    if (name === 'app-base') {
+      return {
+        src: `applications/${name}/dist`,
+        dest: `dist`
+      }
+    }
+    return {
+      src: `applications/${name}/dist`,
+      dest: `dist/${name}`
+    }
+  }).forEach(({ src, dest }) => {
+    copy(src, dest, (error) => {
+      error &&
+          console.error('[Copy failed]', `src: ${src}, dest: ${dest}`, error)
+    })
+  })

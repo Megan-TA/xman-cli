@@ -36,18 +36,18 @@ var webpackConfig = merge(baseWebpackConfig, {
     new webpack.DefinePlugin({
       'process.env': env
     }),
-    new UglifyJsPlugin({
-      uglifyOptions: {
-        output: {
-          comments: false,
-          beautify: false
-        },
-        compress: {
-          warnings: false,
-          drop_console: true
-        }
-      }
-    }),
+    // new UglifyJsPlugin({
+    //   uglifyOptions: {
+    //     output: {
+    //       comments: false,
+    //       beautify: false
+    //     },
+    //     compress: {
+    //       warnings: false,
+    //       drop_console: true
+    //     }
+    //   }
+    // }),
 
     // extract css into its own file
     new ExtractTextPlugin({
@@ -115,14 +115,10 @@ var webpackConfig = merge(baseWebpackConfig, {
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       minChunks: function (module) {
-        console.log('module: ', module)
         return (
           module.resource &&
                     /\.js$/.test(module.resource) &&
-                    module.resource.indexOf(
-                      sourcePath + '/node_modules'
-                    //   path.join(__dirname, '../node_modules')
-                    ) === 0
+                    /node_modules/.test(module.resource)
         )
       }
     }),

@@ -12,7 +12,7 @@ const generate = require('../lib/generate')
 const name = process.argv.reverse()[0]
 
 const dest = path.resolve(name)
-const templatePath = path.resolve(__dirname, '../template')
+const templatePath = path.resolve(__dirname, '../remote-template/template')
 const repository = 'Megan-TA/micro-front-vue-template'
 
 const spinner = ora('loading...')
@@ -24,13 +24,13 @@ if (fs.existsSync(templatePath)) {
   spinner.start()
   downloadGitRepo(
     repository,
-    path.resolve(__dirname, '../'),
+    path.resolve(__dirname, '../remote-template'),
     (err) => {
       if (err) {
         spinner.fail('模板下载失败！')
         return
       }
-      console.log(chalk.yellow('下载模板成功！'))
+      console.log(chalk.yellow('模板下载成功！'))
       run()
     })
 }

@@ -11,7 +11,7 @@ const generate = require('../lib/generate')
 const name = process.argv.reverse()[0]
 
 const dest = path.resolve('applications/' + name)
-const templatePath = path.resolve(__dirname, '../template')
+const templatePath = path.resolve(__dirname, '../remote-template/template')
 
 const spinner = ora('loading...')
 

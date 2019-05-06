@@ -1,5 +1,5 @@
 {
-  "name": "micro-front-vue-template",
+  "name": "xman-cli",
   "version": "1.0.0",
   "description": "基于微前端概念下的vue脚手架",
   "bin": {

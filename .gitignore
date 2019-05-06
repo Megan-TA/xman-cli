@@ -1,7 +1,6 @@
 node_modules
 yarn-error.log
 .DS_Store
-template
 template/.DS_Store
-demo
 applications
+template
